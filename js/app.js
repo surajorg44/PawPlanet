@@ -66,18 +66,45 @@ function initializeLocation() {
     if (savedLocation) {
         updateLocationDisplay(JSON.parse(savedLocation));
     } else {
-        // Request geolocation
+        // Request geolocation with high accuracy
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    // In real app, reverse geocode to get city
-                    const location = { city: 'Mumbai', pincode: '400001' };
-                    localStorage.setItem('pawplanet_location', JSON.stringify(location));
-                    updateLocationDisplay(location);
+                async (position) => {
+                    try {
+                        const { latitude, longitude } = position.coords;
+                        // Use OpenStreetMap Nominatim API for reverse geocoding (Free, no key required)
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                        const data = await response.json();
+
+                        // Extract city name (handle various address formats)
+                        const city = data.address.city ||
+                            data.address.town ||
+                            data.address.village ||
+                            data.address.county ||
+                            data.address.state_district ||
+                            'Mumbai'; // Fallback
+
+                        const pincode = data.address.postcode || '';
+
+                        const location = { city: city, pincode: pincode };
+                        localStorage.setItem('pawplanet_location', JSON.stringify(location));
+                        updateLocationDisplay(location);
+                        showToast(`Location updated to ${city}`, 'success');
+                    } catch (error) {
+                        console.error('Error fetching location:', error);
+                        // Fallback to default if API fails
+                        const location = { city: 'Mumbai', pincode: '400001' };
+                        localStorage.setItem('pawplanet_location', JSON.stringify(location));
+                        updateLocationDisplay(location);
+                    }
                 },
                 (error) => {
                     console.log('Geolocation error:', error);
-                }
+                    // Fallback to default if denied
+                    const location = { city: 'Select Location', pincode: '' };
+                    updateLocationDisplay(location);
+                },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
             );
         }
     }
@@ -87,18 +114,22 @@ function updateLocationDisplay(location) {
     const locationBtn = document.querySelector('.location-selector');
     if (locationBtn) {
         locationBtn.innerHTML = `
-      <span>📍</span>
-      <span>${location.city}</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+        <span>${location.city}</span>
     `;
     }
 }
 
 function changeLocation() {
-    const newCity = prompt('Enter your city:');
-    if (newCity) {
-        const location = { city: newCity, pincode: '' };
+    const savedLocation = localStorage.getItem('pawplanet_location');
+    const newCity = prompt('Enter your city:', savedLocation ? JSON.parse(savedLocation).city : '');
+    if (newCity && newCity.trim() !== '') {
+        const location = { city: newCity.trim(), pincode: '' };
         localStorage.setItem('pawplanet_location', JSON.stringify(location));
         updateLocationDisplay(location);
+        showToast(`Location changed to ${newCity}`, 'success');
     }
 }
 
