@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Service - Paw Planet</title>
+  <link rel="stylesheet" href="css/paw-planet-styles.css">
+  <style>
+    .booking-container {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: var(--space-6);
+      margin-top: var(--space-6);
+    }
+
+    .service-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      margin-bottom: var(--space-4);
+    }
+
+    .booking-form {
+      background: white;
+      padding: var(--space-6);
+      border-radius: var(--radius-lg);
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    .time-slot {
+      padding: var(--space-3);
+      border: 2px solid var(--gray-300);
+      border-radius: var(--radius-md);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+
+    .time-slot:hover {
+      border-color: var(--primary-teal);
+    }
+
+    .time-slot.selected {
+      border-color: var(--primary-teal);
+      background: var(--primary-teal);
+      color: white;
+    }
+
+    .time-slot.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .validation-error {
+      background: var(--error-red-light);
+      border-left: 4px solid var(--error-red);
+      padding: var(--space-4);
+      border-radius: var(--radius-md);
+      margin-top: var(--space-4);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="promo-bar">
+    🎉 Book your first service and get 20% off!
+  </div>
+
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-main">
+        <a href="index.html" class="nav-logo">
+          <img src="assets/images/logo.png" alt="Paw Planet">
+          <span>Paw Planet</span>
+        </a>
+        <div class="nav-search mobile-hidden">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" placeholder="Search...">
+        </div>
+        <div class="nav-actions">
+          <button class="location-selector" id="location-btn">
+            <span>📍</span><span>Mumbai</span>
+          </button>
+          <button class="nav-icon-btn" id="account-btn">👤</button>
+          <button class="nav-icon-btn" id="cart-btn">
+            🛒<span class="cart-badge" style="display:none;">0</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="booking-container" id="booking-container">
+      <!-- Content loaded dynamically -->
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2026 Paw Planet. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let currentService = null;
+    let selectedDuration = null;
+    let selectedDate = null;
+    let selectedTime = null;
+    let selectedPet = null;
+
+    const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM'];
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const serviceId = parseInt(urlParams.get('id'));
+
+      currentService = MOCK_DATA.services.find(s => s.id === serviceId);
+
+      if (currentService) {
+        renderServiceBooking();
+      } else {
+        document.getElementById('booking-container').innerHTML = '<p>Service not found</p>';
+      }
+    });
+
+    function renderServiceBooking() {
+      const container = document.getElementById('booking-container');
+
+      container.innerHTML = `
+        <!-- Service Details -->
+        <div>
+          <img src="${currentService.image}" alt="${currentService.name}" class="service-image">
+          
+          <h1 class="mb-3">${currentService.name}</h1>
+          
+          <div class="product-rating mb-4">
+            <span class="rating-stars text-xl">${'⭐'.repeat(Math.floor(currentService.rating))}</span>
+            <span class="rating-count">${currentService.rating} (${currentService.reviews} reviews)</span>
+          </div>
+
+          <div class="mb-4">
+            <div class="text-muted mb-2">Service Provider</div>
+            <div class="font-semibold">${currentService.provider}</div>
+          </div>
+
+          <div class="mb-4">
+            <div class="text-muted mb-2">Starting From</div>
+            <div class="text-3xl font-bold text-primary">₹${currentService.basePrice}</div>
+          </div>
+
+          <div class="detail-section">
+            <h3 class="mb-4">What's Included</h3>
+            <ul style="list-style: none; padding: 0;">
+              ${currentService.includes.map(item => `<li class="mb-2">✓ ${item}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="detail-section">
+            <h3 class="mb-4">Description</h3>
+            <p>${currentService.description}</p>
+          </div>
+
+          <div class="detail-section">
+            <h3 class="mb-4">Cancellation Policy</h3>
+            <p>${currentService.cancellationPolicy}</p>
+          </div>
+
+          ${currentService.requiresVaccination ? `
+            <div class="detail-section bg-warning" style="background: var(--warning-yellow); color: white;">
+              <h4 class="mb-2">⚠️ Vaccination Required</h4>
+              <p>This service requires your pet to have the following vaccinations:</p>
+              <ul>
+                ${currentService.vaccinesRequired.map(v => `<li>${v}</li>`).join('')}
+              </ul>
+              ${currentService.minAge ? `<p class="mt-2">Minimum age: ${currentService.minAge} months</p>` : ''}
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- Booking Form -->
+        <div class="booking-form">
+          <h3 class="mb-4">Book This Service</h3>
+
+          <div class="form-group">
+            <label class="form-label">Select Your Pet *</label>
+            <select class="form-select" id="pet-select" onchange="validatePet()">
+              <option value="">Choose a pet...</option>
+              ${currentUser ? currentUser.pets.map(pet => `
+                <option value="${pet.id}">${pet.name} (${pet.type} - ${pet.breed})</option>
+              `).join('') : '<option value="">Please login first</option>'}
+            </select>
+          </div>
+
+          <div id="pet-validation-error"></div>
+
+          <div class="form-group">
+            <label class="form-label">Service Duration *</label>
+            <select class="form-select" id="duration-select" onchange="selectDuration()">
+              <option value="">Choose duration...</option>
+              ${currentService.durations.map(d => `
+                <option value="${d.id}">₹${d.price} - ${d.duration}</option>
+              `).join('')}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select Date *</label>
+            <input type="date" class="form-input" id="date-input" min="${new Date().toISOString().split('T')[0]}" onchange="selectDate()">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Select Time Slot *</label>
+            <div class="time-slots" id="time-slots">
+              ${timeSlots.map(slot => `
+                <div class="time-slot" onclick="selectTime('${slot}')">${slot}</div>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Special Requests (Optional)</label>
+            <textarea class="form-textarea" id="special-requests" placeholder="Any special instructions or requirements..."></textarea>
+          </div>
+
+          <div class="summary-row mb-4">
+            <span class="font-semibold">Total Amount:</span>
+            <span class="font-bold text-2xl text-primary" id="booking-total">₹${currentService.basePrice}</span>
+          </div>
+
+          <button class="btn btn-primary btn-full btn-lg" onclick="bookService()" id="book-btn">
+            Add to Cart
+          </button>
+
+          <p class="text-sm text-muted text-center mt-3">
+            You can review and modify your booking in the cart before payment
+          </p>
+        </div>
+      `;
+    }
+
+    function validatePet() {
+      const petId = parseInt(document.getElementById('pet-select').value);
+      const errorDiv = document.getElementById('pet-validation-error');
+
+      if (!petId) {
+        errorDiv.innerHTML = '';
+        return false;
+      }
+
+      selectedPet = currentUser.pets.find(p => p.id === petId);
+
+      // Check profile completion
+      if (selectedPet.profileComplete < 50) {
+        errorDiv.innerHTML = `
+          <div class="validation-error">
+            <strong>⚠️ Incomplete Pet Profile</strong>
+            <p class="mt-2">Your pet's profile is only ${selectedPet.profileComplete}% complete. Please complete at least 50% of the profile to book this service.</p>
+            <a href="account.html#pets" class="btn btn-sm btn-primary mt-2">Complete Profile</a>
+          </div>
+        `;
+        return false;
+      }
+
+      // Check photos
+      if (selectedPet.photos < 2) {
+        errorDiv.innerHTML = `
+          <div class="validation-error">
+            <strong>⚠️ Photos Required</strong>
+            <p class="mt-2">Please upload at least 2 photos of ${selectedPet.name} to proceed with booking.</p>
+            <a href="account.html#pets" class="btn btn-sm btn-primary mt-2">Upload Photos</a>
+          </div>
+        `;
+        return false;
+      }
+
+      // Check vaccinations if required
+      if (currentService.requiresVaccination) {
+        const missingVaccines = currentService.vaccinesRequired.filter(required => {
+          const vaccine = selectedPet.vaccinations.find(v => v.name === required);
+          return !vaccine || !vaccine.valid;
+        });
+
+        if (missingVaccines.length > 0) {
+          errorDiv.innerHTML = `
+            <div class="validation-error">
+              <strong>⚠️ Vaccination Required</strong>
+              <p class="mt-2">${selectedPet.name} is missing or has expired vaccinations:</p>
+              <ul class="mt-2">
+                ${missingVaccines.map(v => `<li>${v}</li>`).join('')}
+              </ul>
+              <a href="account.html#pets" class="btn btn-sm btn-primary mt-2">Update Vaccination Records</a>
+            </div>
+          `;
+          return false;
+        }
+
+        // Check age
+        if (currentService.minAge && selectedPet.age < currentService.minAge) {
+          errorDiv.innerHTML = `
+            <div class="validation-error">
+              <strong>⚠️ Age Requirement</strong>
+              <p class="mt-2">${selectedPet.name} must be at least ${currentService.minAge} months old for this service.</p>
+            </div>
+          `;
+          return false;
+        }
+      }
+
+      errorDiv.innerHTML = '';
+      return true;
+    }
+
+    function selectDuration() {
+      const durationId = parseInt(document.getElementById('duration-select').value);
+      selectedDuration = currentService.durations.find(d => d.id === durationId);
+      updateTotal();
+    }
+
+    function selectDate() {
+      selectedDate = document.getElementById('date-input').value;
+    }
+
+    function selectTime(time) {
+      selectedTime = time;
+      document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.classList.remove('selected');
+      });
+      event.target.classList.add('selected');
+    }
+
+    function updateTotal() {
+      if (selectedDuration) {
+        document.getElementById('booking-total').textContent = `₹${selectedDuration.price}`;
+      }
+    }
+
+    function bookService() {
+      if (!currentUser) {
+        showToast('Please login to book a service', 'error');
+        showLoginModal();
+        return;
+      }
+
+      if (!selectedPet) {
+        showToast('Please select a pet', 'error');
+        return;
+      }
+
+      if (!validatePet()) {
+        showToast('Please complete pet profile requirements', 'error');
+        return;
+      }
+
+      if (!selectedDuration) {
+        showToast('Please select a duration', 'error');
+        return;
+      }
+
+      if (!selectedDate) {
+        showToast('Please select a date', 'error');
+        return;
+      }
+
+      if (!selectedTime) {
+        showToast('Please select a time slot', 'error');
+        return;
+      }
+
+      // Add to cart
+      cartManager.addService(currentService, selectedDuration.id, selectedDate, selectedTime, selectedPet.id);
+
+      // Redirect to cart
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 1000);
+    }
+  </script>
+</body>
+
+</html>

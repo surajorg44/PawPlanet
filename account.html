@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Paw Planet</title>
+    <link rel="stylesheet" href="css/paw-planet-styles.css">
+    <style>
+        .account-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: var(--space-6);
+            margin-top: var(--space-6);
+        }
+
+        .account-sidebar {
+            background: white;
+            padding: var(--space-6);
+            border-radius: var(--radius-lg);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            padding: var(--space-3);
+            margin-bottom: var(--space-2);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .sidebar-menu li:hover,
+        .sidebar-menu li.active {
+            background: var(--gray-100);
+            color: var(--primary-teal);
+        }
+
+        .pet-card {
+            background: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            display: flex;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .pet-image {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--radius-full);
+            object-fit: cover;
+        }
+
+        .order-card {
+            background: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-4);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="promo-bar">
+        🎉 Welcome back to Paw Planet!
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-main">
+                <a href="index.html" class="nav-logo">
+                    <img src="assets/images/logo.png" alt="Paw Planet">
+                    <span>Paw Planet</span>
+                </a>
+                <div class="nav-search mobile-hidden">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search...">
+                </div>
+                <div class="nav-actions">
+                    <button class="location-selector" id="location-btn">
+                        <span>📍</span><span>Mumbai</span>
+                    </button>
+                    <button class="nav-icon-btn" id="account-btn">👤</button>
+                    <button class="nav-icon-btn" id="cart-btn">
+                        🛒<span class="cart-badge" style="display:none;">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="account-container">
+            <!-- Sidebar -->
+            <aside class="account-sidebar">
+                <div class="text-center mb-6">
+                    <img src="https://via.placeholder.com/100/1a5f6f/ffffff?text=JD" alt="Profile"
+                        style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto var(--space-3);">
+                    <div class="font-semibold" id="user-name">Guest User</div>
+                    <div class="text-sm text-muted" id="user-email">guest@example.com</div>
+                </div>
+                <ul class="sidebar-menu">
+                    <li class="active" onclick="showSection('profile')">👤 My Profile</li>
+                    <li onclick="showSection('pets')">🐾 My Pets</li>
+                    <li onclick="showSection('orders')">📦 My Orders</li>
+                    <li onclick="showSection('addresses')">📍 Addresses</li>
+                    <li onclick="logout()" style="color: var(--error-red);">🚪 Logout</li>
+                </ul>
+            </aside>
+
+            <!-- Main Content -->
+            <main>
+                <!-- Profile Section -->
+                <div id="profile-section" class="section">
+                    <h2 class="mb-6">My Profile</h2>
+                    <div class="card p-6">
+                        <div class="grid grid-cols-2">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" id="profile-name" value="John Doe">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-input" id="profile-email" value="john.doe@example.com">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="tel" class="form-input" id="profile-phone" value="+91 9876543210">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Gender</label>
+                                <select class="form-select">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-4">Update Profile</button>
+                    </div>
+                </div>
+
+                <!-- Pets Section -->
+                <div id="pets-section" class="section" style="display: none;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2>My Pets</h2>
+                        <button class="btn btn-primary">+ Add Pet</button>
+                    </div>
+                    <div id="pets-list"></div>
+                </div>
+
+                <!-- Orders Section -->
+                <div id="orders-section" class="section" style="display: none;">
+                    <h2 class="mb-6">My Orders</h2>
+                    <div id="orders-list"></div>
+                </div>
+
+                <!-- Addresses Section -->
+                <div id="addresses-section" class="section" style="display: none;">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2>Saved Addresses</h2>
+                        <button class="btn btn-primary">+ Add Address</button>
+                    </div>
+                    <div id="addresses-list"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Paw Planet. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/mock-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!currentUser) {
+                // Mock login for demo
+                saveUser(MOCK_DATA.user);
+            }
+
+            loadUserProfile();
+            loadPets();
+            loadOrders();
+            loadAddresses();
+        });
+
+        function loadUserProfile() {
+            if (currentUser) {
+                document.getElementById('user-name').textContent = currentUser.name;
+                document.getElementById('user-email').textContent = currentUser.email;
+                document.getElementById('profile-name').value = currentUser.name;
+                document.getElementById('profile-email').value = currentUser.email;
+                document.getElementById('profile-phone').value = currentUser.phone;
+            }
+        }
+
+        function loadPets() {
+            const container = document.getElementById('pets-list');
+            if (!currentUser || !currentUser.pets) return;
+
+            container.innerHTML = currentUser.pets.map(pet => `
+        <div class="pet-card">
+          <img src="${pet.image}" alt="${pet.name}" class="pet-image">
+          <div class="flex-1">
+            <h3 class="mb-2">${pet.name}</h3>
+            <div class="text-sm text-muted mb-1">${pet.type} • ${pet.breed} • ${pet.age} years old</div>
+            <div class="mb-2">
+              <div class="text-sm">Profile Completion: ${pet.profileComplete}%</div>
+              <div style="background: var(--gray-200); height: 8px; border-radius: var(--radius-full); overflow: hidden;">
+                <div style="background: var(--primary-teal); width: ${pet.profileComplete}%; height: 100%;"></div>
+              </div>
+            </div>
+            <div class="text-sm">
+              <strong>Vaccinations:</strong>
+              ${pet.vaccinations.map(v => `
+                <span class="${v.valid ? 'text-success' : 'text-error'}">${v.name} ${v.valid ? '✓' : '✕'}</span>
+              `).join(', ')}
+            </div>
+          </div>
+          <button class="btn btn-outline btn-sm">Edit</button>
+        </div>
+      `).join('');
+        }
+
+        function loadOrders() {
+            const container = document.getElementById('orders-list');
+            if (!MOCK_DATA.orders) return;
+
+            container.innerHTML = MOCK_DATA.orders.map(order => `
+        <div class="order-card">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="font-semibold">Order #${order.id}</div>
+              <div class="text-sm text-muted">Placed on ${order.date}</div>
+            </div>
+            <div class="text-right">
+              <div class="font-bold text-lg">₹${order.total}</div>
+              <div class="text-sm" style="color: ${order.status === 'Delivered' ? 'var(--success-green)' : 'var(--warning-yellow)'};">
+                ${order.status}
+              </div>
+            </div>
+          </div>
+          <div class="text-sm mb-3">
+            ${order.items.length} item(s) • Delivery: ${order.deliveryDate}
+          </div>
+          <button class="btn btn-outline btn-sm">View Details</button>
+        </div>
+      `).join('');
+        }
+
+        function loadAddresses() {
+            const container = document.getElementById('addresses-list');
+            if (!currentUser || !currentUser.addresses) return;
+
+            container.innerHTML = currentUser.addresses.map(address => `
+        <div class="card p-4 mb-3">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="font-semibold mb-2">${address.type} ${address.isDefault ? '<span class="text-xs bg-primary text-white px-2 py-1" style="border-radius: var(--radius-md);">Default</span>' : ''}</div>
+              <div class="text-sm mb-1">${address.flat}, ${address.street}</div>
+              <div class="text-sm mb-1">${address.landmark ? address.landmark + ', ' : ''}${address.city}, ${address.state} - ${address.pincode}</div>
+              <div class="text-sm text-muted">Phone: ${address.phone}</div>
+            </div>
+            <div class="flex gap-2">
+              <button class="btn btn-ghost btn-sm">Edit</button>
+              <button class="btn btn-ghost btn-sm text-error">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+        }
+
+        function showSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+            document.querySelectorAll('.sidebar-menu li').forEach(li => li.classList.remove('active'));
+
+            document.getElementById(`${section}-section`).style.display = 'block';
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

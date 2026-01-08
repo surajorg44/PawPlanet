@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Paw Planet - Your one-stop shop for premium pet products and services. Food, grooming, veterinary care, and more.">
+    <title>Paw Planet - Premium Pet Care & Products</title>
+    <link rel="stylesheet" href="css/paw-planet-styles.css">
+</head>
+
+<body>
+    <!-- Promo Banner -->
+    <div class="promo-bar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+            style="display: inline-block; vertical-align: middle; margin-right: 4px;">
+            <path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.7-6.3 4.7 2.3-7-6-4.6h7.6z" />
+        </svg>
+        Free Delivery on orders above ₹599 | Use code FIRST20 for 20% off on your first order!
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-main">
+                <!-- Logo -->
+                <a href="index.html" class="nav-logo" id="logo-link">
+                    <img src="assets/images/logo.png" alt="Paw Planet Logo">
+                    <span>Paw Planet</span>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="nav-search mobile-hidden">
+                    <span class="search-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                    </span>
+                    <input type="text" class="search-input" placeholder="Search for products, services, brands..."
+                        id="search-input">
+                </div>
+
+                <!-- Actions -->
+                <div class="nav-actions">
+                    <button class="location-selector" id="location-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                        </svg>
+                        <span>Mumbai</span>
+                    </button>
+                    <button class="nav-icon-btn" id="account-btn" aria-label="Account">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                    <button class="nav-icon-btn" id="cart-btn" aria-label="Cart">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        </svg>
+                        <span class="cart-badge" style="display: none;">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Navigation -->
+            <div class="category-nav">
+                <div class="container">
+                    <ul class="category-list" id="category-list">
+                        <!-- Categories will be loaded dynamically -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner"
+        style="background-image: url('assets/images/hero-banner.png'); background-size: cover; background-position: center; position: relative;">
+        <div
+            style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(26, 95, 111, 0.85) 0%, rgba(45, 122, 138, 0.75) 100%);">
+        </div>
+        <div class="container" style="position: relative; z-index: 1;">
+            <div class="hero-content">
+                <h1 class="hero-title">Welcome to Paw Planet!</h1>
+                <p class="hero-subtitle">Premium pet products and services delivered to your doorstep. Everything your
+                    furry friend needs, all in one place.</p>
+                <div class="flex gap-4">
+                    <a href="products.html" class="btn btn-primary btn-lg">Shop Now</a>
+                    <a href="service-booking.html" class="btn btn-outline btn-lg"
+                        style="background: white; color: var(--primary-teal);">Book Services</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bank Offers -->
+    <section class="container mt-8">
+        <h2 class="text-center mb-6">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                style="display: inline-block; vertical-align: middle; margin-right: 8px;">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            Bank Offers
+        </h2>
+        <div class="grid grid-cols-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="text-primary font-bold mb-2">HDFC Bank</h4>
+                    <p class="text-lg font-semibold mb-2">10% Instant Discount</p>
+                    <p class="text-sm text-muted">Min. ₹1000 | Max ₹500 off</p>
+                    <p class="text-xs text-secondary font-semibold mt-2">Code: HDFC10</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="text-primary font-bold mb-2">ICICI Bank</h4>
+                    <p class="text-lg font-semibold mb-2">15% Cashback</p>
+                    <p class="text-sm text-muted">Min. ₹2000 | Max ₹750 off</p>
+                    <p class="text-xs text-secondary font-semibold mt-2">Code: ICICI15</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <h4 class="text-primary font-bold mb-2">SBI Cards</h4>
+                    <p class="text-lg font-semibold mb-2">₹200 Off</p>
+                    <p class="text-sm text-muted">Min. ₹1500</p>
+                    <p class="text-xs text-secondary font-semibold mt-2">Code: SBI200</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="container mt-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"
+                    style="display: inline-block; vertical-align: middle; margin-right: 8px; color: var(--secondary-orange);">
+                    <polygon
+                        points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                </svg>
+                Featured Products
+            </h2>
+            <a href="products.html" class="btn btn-ghost">View All →</a>
+        </div>
+        <div class="grid grid-cols-4" id="featured-products">
+            <!-- Products will be loaded dynamically -->
+        </div>
+    </section>
+
+    <!-- Featured Services -->
+    <section class="container mt-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2>
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    style="display: inline-block; vertical-align: middle; margin-right: 8px; color: var(--primary-teal);">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+                Popular Services
+            </h2>
+            <a href="products.html?category=services" class="btn btn-ghost">View All →</a>
+        </div>
+        <div class="grid grid-cols-4" id="featured-services">
+            <!-- Services will be loaded dynamically -->
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <section class="container mt-8">
+        <div class="trust-badges">
+            <div class="trust-badge">
+                <div class="trust-badge-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="trust-badge-text">100% Authentic Products</div>
+            </div>
+            <div class="trust-badge">
+                <div class="trust-badge-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                </div>
+                <div class="trust-badge-text">Easy Returns</div>
+            </div>
+            <div class="trust-badge">
+                <div class="trust-badge-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                    </svg>
+                </div>
+                <div class="trust-badge-text">Vet Approved</div>
+            </div>
+            <div class="trust-badge">
+                <div class="trust-badge-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13"></rect>
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                    </svg>
+                </div>
+                <div class="trust-badge-text">Fast Delivery</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <h4>About Paw Planet</h4>
+                    <p>Your trusted partner for premium pet care products and services. We provide everything your furry
+                        friends need to live their best lives.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Shop Products</a></li>
+                        <li><a href="service-booking.html">Book Services</a></li>
+                        <li><a href="account.html">My Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul class="footer-links">
+                        <li><a href="products.html?category=grooming">Grooming</a></li>
+                        <li><a href="products.html?category=veterinary">Veterinary Care</a></li>
+                        <li><a href="products.html?category=boarding">Boarding</a></li>
+                        <li><a href="products.html?category=training">Training</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#faq">FAQs</a></li>
+                        <li><a href="#shipping">Shipping Policy</a></li>
+                        <li><a href="#returns">Returns & Refunds</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul class="footer-links">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2"
+                                style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                </path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            support@pawplanet.com
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2"
+                                style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                                <path
+                                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                                </path>
+                            </svg>
+                            1800-123-4567
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"
+                                style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                                <path
+                                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                            </svg>
+                            Mumbai, India
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2"
+                                style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            Mon-Sat: 9 AM - 8 PM
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Paw Planet. All rights reserved. Made with
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#ea580c"
+                        style="display: inline-block; vertical-align: middle; margin: 0 4px;">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    for pets and their humans.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/mock-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Load categories
+        document.addEventListener('DOMContentLoaded', function () {
+            const categoryList = document.getElementById('category-list');
+            MOCK_DATA.categories.forEach(category => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+          <a href="products.html?category=${category.slug}" class="category-chip">
+            <span style="display: inline-block; vertical-align: middle; margin-right: 6px;">${category.icon}</span>
+            <span>${category.name}</span>
+          </a>
+        `;
+                categoryList.appendChild(li);
+            });
+
+            // Load featured products
+            const productsContainer = document.getElementById('featured-products');
+            MOCK_DATA.products.slice(0, 4).forEach(product => {
+                const card = createProductCard(product);
+                productsContainer.appendChild(card);
+            });
+
+            // Load featured services
+            const servicesContainer = document.getElementById('featured-services');
+            MOCK_DATA.services.slice(0, 4).forEach(service => {
+                const card = createServiceCard(service);
+                servicesContainer.appendChild(card);
+            });
+        });
+
+        function createProductCard(product) {
+            const div = document.createElement('div');
+            div.className = 'product-card card';
+            div.innerHTML = `
+        ${product.discount > 0 ? `<span class="product-badge">${product.discount}% OFF</span>` : ''}
+        <img src="${product.image}" alt="${product.name}" class="product-img">
+        <div class="product-info">
+          <div class="product-brand">${product.brand}</div>
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-rating">
+            <span class="rating-stars">${'⭐'.repeat(Math.floor(product.rating))}</span>
+            <span class="rating-count">(${product.reviews})</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">₹${product.price}</span>
+            ${product.originalPrice ? `<span class="price-original">₹${product.originalPrice}</span>` : ''}
+          </div>
+          <div class="stock-status ${product.inStock ? 'in-stock' : 'out-of-stock'}">
+            ${product.inStock ?
+                    (product.lowStock ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg> Low Stock' :
+                        '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="20 6 9 17 4 12"></polyline></svg> In Stock') :
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> Out of Stock'
+                }
+          </div>
+          ${product.inStock ?
+                    `<button class="btn btn-primary btn-sm btn-full" onclick="addToCart(${product.id})">Add to Cart</button>` :
+                    `<button class="btn btn-outline btn-sm btn-full" onclick="remindMeLater(${product.id})">Remind Me Later</button>`
+                }
+        </div>
+      `;
+            div.onclick = (e) => {
+                if (!e.target.classList.contains('btn')) {
+                    window.location.href = `product-detail.html?id=${product.id}`;
+                }
+            };
+            return div;
+        }
+
+        function createServiceCard(service) {
+            const div = document.createElement('div');
+            div.className = 'product-card card';
+            div.innerHTML = `
+        <img src="${service.image}" alt="${service.name}" class="product-img">
+        <div class="product-info">
+          <div class="product-brand">${service.provider}</div>
+          <h3 class="product-name">${service.name}</h3>
+          <div class="product-rating">
+            <span class="rating-stars">${'⭐'.repeat(Math.floor(service.rating))}</span>
+            <span class="rating-count">(${service.reviews})</span>
+          </div>
+          <div class="product-price">
+            <span class="price-current">₹${service.basePrice}</span>
+            <span class="text-muted text-sm">onwards</span>
+          </div>
+          <button class="btn btn-secondary btn-sm btn-full" onclick="window.location.href='service-booking.html?id=${service.id}'">Book Now</button>
+        </div>
+      `;
+            return div;
+        }
+
+        function addToCart(productId) {
+            const product = MOCK_DATA.products.find(p => p.id === productId);
+            if (product) {
+                cartManager.addProduct(product);
+            }
+        }
+    </script>
+</body>
+
+</html>

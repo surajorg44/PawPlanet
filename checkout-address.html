@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Address - Paw Planet</title>
+    <link rel="stylesheet" href="css/paw-planet-styles.css">
+    <style>
+        .address-card {
+            background: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--gray-200);
+            margin-bottom: var(--space-3);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .address-card:hover {
+            border-color: var(--primary-teal);
+        }
+
+        .address-card.selected {
+            border-color: var(--primary-teal);
+            background: rgba(26, 95, 111, 0.05);
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+            padding: var(--space-4);
+            background: white;
+            border-radius: var(--radius-lg);
+        }
+
+        .progress-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .progress-step.active {
+            color: var(--primary-teal);
+            font-weight: 600;
+        }
+
+        .progress-step.completed {
+            color: var(--success-green);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="promo-bar">
+        🎉 Free Delivery on orders above ₹599
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-main">
+                <a href="index.html" class="nav-logo">
+                    <img src="assets/logo.png" alt="Paw Planet">
+                    <span>Paw Planet</span>
+                </a>
+                <div class="nav-actions">
+                    <button class="nav-icon-btn" id="account-btn">👤</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="progress-indicator">
+            <div class="progress-step completed">
+                <div>✓</div>
+                <div>Cart</div>
+            </div>
+            <div class="progress-step active">
+                <div>📍</div>
+                <div>Address</div>
+            </div>
+            <div class="progress-step">
+                <div>📋</div>
+                <div>Review</div>
+            </div>
+            <div class="progress-step">
+                <div>💳</div>
+                <div>Payment</div>
+            </div>
+        </div>
+
+        <h2 class="mb-6">Select Delivery Address</h2>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div id="addresses-list"></div>
+
+            <button class="btn btn-outline btn-full mb-6" onclick="toggleAddressForm()">
+                + Add New Address
+            </button>
+
+            <div id="address-form" style="display: none;" class="card p-6 mb-6">
+                <h3 class="mb-4">Add New Address</h3>
+                <form id="new-address-form">
+                    <div class="grid grid-cols-2">
+                        <div class="form-group">
+                            <label class="form-label">Flat / House No. *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Street / Area *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Landmark</label>
+                        <input type="text" class="form-input">
+                    </div>
+                    <div class="grid grid-cols-3">
+                        <div class="form-group">
+                            <label class="form-label">Pincode *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State *</label>
+                            <input type="text" class="form-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number *</label>
+                        <input type="tel" class="form-input" required>
+                    </div>
+                    <div class="flex gap-3">
+                        <button type="submit" class="btn btn-primary">Save Address</button>
+                        <button type="button" class="btn btn-ghost" onclick="toggleAddressForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-full" onclick="proceedToReview()" id="continue-btn" disabled>
+                Continue to Review
+            </button>
+        </div>
+    </div>
+
+    <script src="js/mock-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let selectedAddress = null;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            if (!currentUser) {
+                window.location.href = 'cart.html';
+                return;
+            }
+            renderAddresses();
+        });
+
+        function renderAddresses() {
+            const container = document.getElementById('addresses-list');
+            container.innerHTML = '';
+
+            currentUser.addresses.forEach((address, index) => {
+                const div = document.createElement('div');
+                div.className = 'address-card';
+                if (address.isDefault) {
+                    div.classList.add('selected');
+                    selectedAddress = address;
+                    document.getElementById('continue-btn').disabled = false;
+                }
+
+                div.innerHTML = `
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-semibold">${address.type}</div>
+            ${address.isDefault ? '<span class="text-xs bg-primary text-white px-2 py-1" style="border-radius: var(--radius-md);">Default</span>' : ''}
+          </div>
+          <div class="text-sm mb-1">${address.flat}, ${address.street}</div>
+          <div class="text-sm mb-1">${address.landmark ? address.landmark + ', ' : ''}${address.city}, ${address.state} - ${address.pincode}</div>
+          <div class="text-sm text-muted">Phone: ${address.phone}</div>
+        `;
+
+                div.onclick = () => selectAddress(address, div);
+                container.appendChild(div);
+            });
+        }
+
+        function selectAddress(address, element) {
+            selectedAddress = address;
+            document.querySelectorAll('.address-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('continue-btn').disabled = false;
+        }
+
+        function toggleAddressForm() {
+            const form = document.getElementById('address-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function proceedToReview() {
+            if (selectedAddress) {
+                localStorage.setItem('pawplanet_checkout_address', JSON.stringify(selectedAddress));
+                window.location.href = 'checkout-review.html';
+            }
+        }
+    </script>
+</body>
+
+</html>

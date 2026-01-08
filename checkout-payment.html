@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Paw Planet</title>
+    <link rel="stylesheet" href="css/paw-planet-styles.css">
+    <style>
+        .payment-method {
+            background: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--gray-200);
+            margin-bottom: var(--space-3);
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .payment-method:hover {
+            border-color: var(--primary-teal);
+        }
+
+        .payment-method.selected {
+            border-color: var(--primary-teal);
+            background: rgba(26, 95, 111, 0.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="promo-bar">
+        🎉 Secure Payment Gateway
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-main">
+                <a href="index.html" class="nav-logo">
+                    <img src="assets/logo.png" alt="Paw Planet">
+                    <span>Paw Planet</span>
+                </a>
+                <div class="nav-actions">
+                    <button class="nav-icon-btn" id="account-btn">👤</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div
+            style="display: flex; justify-content: space-between; margin-bottom: var(--space-6); padding: var(--space-4); background: white; border-radius: var(--radius-lg);">
+            <div style="flex: 1; text-align: center; color: var(--success-green);">
+                <div>✓</div>
+                <div>Cart</div>
+            </div>
+            <div style="flex: 1; text-align: center; color: var(--success-green);">
+                <div>✓</div>
+                <div>Address</div>
+            </div>
+            <div style="flex: 1; text-align: center; color: var(--success-green);">
+                <div>✓</div>
+                <div>Review</div>
+            </div>
+            <div style="flex: 1; text-align: center; color: var(--primary-teal); font-weight: 600;">
+                <div>💳</div>
+                <div>Payment</div>
+            </div>
+        </div>
+
+        <h2 class="mb-6">Select Payment Method</h2>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="payment-method selected" onclick="selectPayment('cod', this)">
+                <div class="flex items-center gap-3">
+                    <div style="font-size: 2rem;">💵</div>
+                    <div>
+                        <div class="font-semibold">Cash on Delivery</div>
+                        <div class="text-sm text-muted">Pay when you receive your order</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-method" onclick="selectPayment('card', this)">
+                <div class="flex items-center gap-3">
+                    <div style="font-size: 2rem;">💳</div>
+                    <div>
+                        <div class="font-semibold">Credit / Debit Card</div>
+                        <div class="text-sm text-muted">Visa, Mastercard, Rupay</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-method" onclick="selectPayment('upi', this)">
+                <div class="flex items-center gap-3">
+                    <div style="font-size: 2rem;">📱</div>
+                    <div>
+                        <div class="font-semibold">UPI</div>
+                        <div class="text-sm text-muted">Google Pay, PhonePe, Paytm</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-method" onclick="selectPayment('wallet', this)">
+                <div class="flex items-center gap-3">
+                    <div style="font-size: 2rem;">👛</div>
+                    <div>
+                        <div class="font-semibold">Digital Wallets</div>
+                        <div class="text-sm text-muted">Paytm, Amazon Pay, PhonePe</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card p-6 mt-6 mb-6">
+                <h3 class="mb-4">Order Total</h3>
+                <div style="display: flex; justify-content: space-between;">
+                    <span class="font-bold text-2xl">Amount to Pay:</span>
+                    <span class="font-bold text-2xl text-primary" id="final-total">₹0</span>
+                </div>
+            </div>
+
+            <button class="btn btn-primary btn-lg btn-full" onclick="placeOrder()">
+                Place Order
+            </button>
+
+            <div class="text-center mt-4 text-sm text-muted">
+                🔒 Your payment information is secure and encrypted
+            </div>
+        </div>
+    </div>
+
+    <script src="js/mock-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let selectedPaymentMethod = 'cod';
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const total = cartManager.getTotal();
+            document.getElementById('final-total').textContent = `₹${total}`;
+        });
+
+        function selectPayment(method, element) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(pm => {
+                pm.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function placeOrder() {
+            // Show loading
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Processing...';
+
+            // Simulate order placement
+            setTimeout(() => {
+                // Clear cart
+                cartManager.clearCart();
+
+                // Show success message
+                showToast('Order placed successfully!', 'success');
+
+                // Redirect to success page or account
+                setTimeout(() => {
+                    window.location.href = 'account.html';
+                }, 1500);
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
